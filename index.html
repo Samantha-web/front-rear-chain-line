@@ -1,781 +1,743 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bicycle Chainline Calculator</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <style>
-        :root {
-            --primary: #3498db;
-            --secondary: #2c3e50;
-            --accent: #e74c3c;
-            --light: #ecf0f1;
-            --dark: #34495e;
-            --success: #2ecc71;
-            --warning: #f39c12;
-        }
+      :root {
+        --primary: #3498db;
+        --secondary: #2c3e50;
+        --accent: #e74c3c;
+        --light: #ecf0f1;
+        --dark: #34495e;
+        --success: #2ecc71;
+        --warning: #f39c12;
+      }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e7eb 100%);
-            color: #333;
-            padding-bottom: 40px;
-        }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4e7eb 100%);
+        color: #333;
+        padding-bottom: 40px;
+      }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
 
-        header {
-            background: var(--secondary);
-            color: white;
-            padding: 20px 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+      header {
+        background: var(--secondary);
+        color: white;
+        padding: 20px 0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
 
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
 
-        .logo i {
-            font-size: 2rem;
-            color: var(--primary);
-        }
+      .logo i {
+        font-size: 2rem;
+        color: var(--primary);
+      }
 
-        .logo h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-        }
+      .logo h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
+      }
 
-        .btn {
-            display: inline-block;
-            padding: 12px 24px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-            white-space: nowrap;
-        }
+      .btn {
+        display: inline-block;
+        padding: 12px 24px;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+      }
 
-        .btn:hover {
-            background: #2980b9;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+      .btn:hover {
+        background: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
 
-        .btn-warning {
-            background: var(--warning);
-        }
+      .btn-warning {
+        background: var(--warning);
+      }
 
-        .btn-warning:hover {
-            background: #e67e22;
-        }
+      .btn-warning:hover {
+        background: #e67e22;
+      }
 
-        .hero {
-            text-align: center;
-            padding: 40px 0;
-            background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.8));
-            background-size: cover;
-            background-position: center;
-            color: white;
-            margin-bottom: 40px;
-        }
+      .hero {
+        text-align: center;
+        padding: 40px 0;
+        background: linear-gradient(
+            rgba(44, 62, 80, 0.9),
+            rgba(44, 62, 80, 0.8)
+          ),
+          url("https://images.unsplash.com/photo-1485965120184-e220f721d03e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80");
+        background-size: cover;
+        background-position: center;
+        color: white;
+        margin-bottom: 40px;
+      }
 
-        .hero h2 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
+      .hero h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        font-weight: 700;
+      }
 
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto 30px;
-        }
+      .hero p {
+        font-size: 1.2rem;
+        max-width: 800px;
+        margin: 0 auto 30px;
+      }
 
+      .calculator-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (min-width: 768px) {
         .calculator-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 30px;
-            margin-bottom: 40px;
+          grid-template-columns: 1fr 1fr;
         }
+      }
 
-        @media (min-width: 768px) {
-            .calculator-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
+      .calculator-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        padding: 30px;
+        transition: transform 0.3s ease;
+      }
 
-        .calculator-card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            padding: 30px;
-            transition: transform 0.3s ease;
-        }
+      .calculator-card:hover {
+        transform: translateY(-5px);
+      }
 
-        .calculator-card:hover {
-            transform: translateY(-5px);
-        }
+      .calculator-card h2 {
+        color: var(--primary);
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #eee;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
 
-        .calculator-card h2 {
-            color: var(--primary);
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #eee;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+      .calculator-card h2 i {
+        font-size: 1.8rem;
+      }
 
-        .calculator-card h2 i {
-            font-size: 1.8rem;
-        }
+      .section {
+        margin-bottom: 20px;
+      }
 
-        .section {
-            margin-bottom: 20px;
-        }
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--dark);
+      }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--dark);
-        }
+      input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+      }
 
-        input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
+      input:focus {
+        border-color: var(--primary);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+      }
 
-        input:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-        }
+      .result {
+        font-weight: bold;
+        font-size: 1.4rem;
+        text-align: center;
+        margin: 25px 0;
+        padding: 15px;
+        background: var(--light);
+        border-radius: 4px;
+        color: var(--success);
+        border-left: 4px solid var(--success);
+      }
 
-        .result {
-            font-weight: bold;
-            font-size: 1.4rem;
-            text-align: center;
-            margin: 25px 0;
-            padding: 15px;
-            background: var(--light);
-            border-radius: 4px;
-            color: var(--success);
-            border-left: 4px solid var(--success);
-        }
+      .info-box {
+        background: #e1f5fe;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 25px 0;
+        border-left: 4px solid var(--primary);
+      }
 
-        .error {
-            color: var(--accent) !important;
-            border-left: 4px solid var(--accent) !important;
-        }
+      .info-box p {
+        margin-bottom: 10px;
+      }
 
-        .info-box {
-            background: #e1f5fe;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 25px 0;
-            border-left: 4px solid var(--primary);
-        }
+      .image-gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+        margin: 30px 0;
+      }
 
-        .info-box p {
-            margin-bottom: 10px;
-        }
+      .image-card {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
 
-        .image-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
+      .image-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        display: block;
+      }
 
-        .image-card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+      .image-card p {
+        padding: 15px;
+        text-align: center;
+        font-weight: 600;
+        color: var(--dark);
+        background: #f8f9fa;
+      }
 
-        .image-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            display: block;
-        }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 25px 0;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
 
-        .image-card p {
-            padding: 15px;
-            text-align: center;
-            font-weight: 600;
-            color: var(--dark);
-            background: #f8f9fa;
-            width: 100%;
-        }
+      th,
+      td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+      }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 25px 0;
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+      th {
+        background: var(--primary);
+        color: white;
+        font-weight: 600;
+      }
 
-        th,
-        td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
+      tr:nth-child(even) {
+        background-color: #f8f9fa;
+      }
 
-        th {
-            background: var(--primary);
-            color: white;
-            font-weight: 600;
-        }
+      tr:hover {
+        background-color: #f1f8ff;
+      }
 
-        tr:nth-child(even) {
-            background-color: #f8f9fa;
-        }
+      .measurement-guide {
+        background: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        margin-bottom: 40px;
+      }
 
-        tr:hover {
-            background-color: #f1f8ff;
-        }
+      .measurement-guide h2 {
+        color: var(--primary);
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #eee;
+      }
 
-        .measurement-guide {
-            background: white;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            margin-bottom: 40px;
-        }
+      .guide-section {
+        margin-bottom: 30px;
+      }
 
-        .measurement-guide h2 {
-            color: var(--primary);
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #eee;
-        }
+      .guide-section h3 {
+        color: var(--secondary);
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
 
-        .guide-section {
-            margin-bottom: 30px;
-        }
+      ol {
+        padding-left: 25px;
+        margin-bottom: 20px;
+      }
 
-        .guide-section h3 {
-            color: var(--secondary);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+      ol li {
+        margin-bottom: 10px;
+        padding-left: 5px;
+      }
 
-        ol {
-            padding-left: 25px;
-            margin-bottom: 20px;
-        }
+      footer {
+        text-align: center;
+        padding: 20px;
+        background: var(--secondary);
+        color: white;
+        margin-top: 40px;
+        border-radius: 10px;
+      }
 
-        ol li {
-            margin-bottom: 10px;
-            padding-left: 5px;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            background: var(--secondary);
-            color: white;
-            margin-top: 40px;
-            border-radius: 10px;
-        }
-
-        .btn-container {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 30px 0;
-        }
-        
-        .image-placeholder {
-            background: #f0f0f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #777;
-            font-weight: bold;
-            font-size: 1rem;
-            text-align: center;
-        }
-        
-        .chainline-difference {
-            font-size: 1.2rem;
-            text-align: center;
-            margin: 20px 0;
-            padding: 15px;
-            background: #fff3e0;
-            border-radius: 8px;
-            border-left: 4px solid var(--warning);
-        }
-        
-        @media (max-width: 600px) {
-            .header-content {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .hero h2 {
-                font-size: 1.8rem;
-            }
-            
-            .hero p {
-                font-size: 1rem;
-            }
-            
-            .btn {
-                padding: 10px 15px;
-                font-size: 0.9rem;
-            }
-        }
+      .btn-container {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin: 30px 0;
+      }
+      #img {
+        width: auto;
+        height: 250px;
+      }
+      #img1 {
+        width: 220px;
+        height: auto;
+      }
     </style>
-</head>
-<body>
-    <header>
+  </head>
+  <body>
+     <header>
         <div class="container header-content">
             <div class="logo">
                 <i class="fas fa-bicycle"></i>
                 <h1>Bicycle Chainline Calculator</h1>
             </div>
             <div class="header-buttons">
-                <a href="#" class="btn">
+                <a href="https://samantha-web.github.io/navigationhub/" class="btn">
                     <i class="fas fa-home"></i> Back to Home
                 </a>
-                <a href="#" class="btn">
+                <a href="Bottom Bracket Dimensions.html" class="btn">
                     <i class="fas fa-cog"></i> Bottom Bracket Chart
                 </a>
             </div>
         </div>
     </header>
-
+    
     <section class="hero">
-        <div class="container">
-            <h2>Precision Chainline Measurement for Optimal Bicycle Performance</h2>
-            <p>
-                Calculate your front and rear chainline measurements to ensure perfect
-                gear shifting and drivetrain efficiency
-            </p>
-            <a href="#calculators" class="btn btn-warning">
-                Get Started <i class="fas fa-arrow-down"></i>
-            </a>
-        </div>
+      <div class="container">
+        <h2>Precision Chainline Measurement for Optimal Bicycle Performance</h2>
+        <p>
+          Calculate your front and rear chainline measurements to ensure perfect
+          gear shifting and drivetrain efficiency
+        </p>
+        <a href="#calculators" class="btn btn-warning"
+          >Get Started <i class="fas fa-arrow-down"></i
+        ></a>
+      </div>
     </section>
 
     <div class="container">
-        <section id="calculators" class="calculator-grid">
-            <!-- Front Chainline Calculator -->
-            <div class="calculator-card">
-                <h2><i class="fas fa-cog"></i> Front Chainline Calculator</h2>
+      <section id="calculators" class="calculator-grid">
+        <!-- Front Chainline Calculator -->
+        <div class="calculator-card">
+          <h2><i class="fas fa-cog"></i> Front Chainline Calculator</h2>
 
-                <div class="section">
-                    <label for="sp">Seatpost diameter (mm):</label>
-                    <input type="number" id="sp" step="0.1" placeholder="e.g., 44" />
-                </div>
+          <div class="section">
+            <label for="sp">Seatpost diameter (mm):</label>
+            <input type="number" id="sp" step="0.1" placeholder="e.g., 44" />
+          </div>
 
-                <div class="section">
-                    <label for="cr">Chainring set width (mm):</label>
-                    <input type="number" id="cr" step="0.1" placeholder="e.g., 9.8" />
-                </div>
+          <div class="section">
+            <label for="cr">Chainring set width (mm):</label>
+            <input type="number" id="cr" step="0.1" placeholder="e.g., 9.8" />
+          </div>
 
-                <div class="section">
-                    <label for="d">Distance from seatpost to end of largest chainring (mm):</label>
-                    <input type="number" id="d" step="0.1" placeholder="e.g., 29" />
-                </div>
+          <div class="section">
+            <label for="d"
+              >Distance from seatpost to end of largest chainring (mm):</label
+            >
+            <input type="number" id="d" step="0.1" placeholder="e.g., 29" />
+          </div>
 
-                <button class="btn" onclick="calculateFront()">
-                    Calculate Front Chainline
-                </button>
-                <p id="frontResult" class="result"></p>
+          <button class="btn" onclick="calculateFront()">
+            Calculate Front Chainline
+          </button>
+          <p id="frontResult" class="result"></p>
 
-                <div class="image-card">
-                    <div class="image-placeholder" style="height: 250px;">
-                    <img src="front-measuring-chainline.gif" alt="Front Chainline Measurement Diagram".
-                        Front Chainline Measurement Diagram
-                    </div>
-                    <p>Measuring front chainline with caliper</p>
-                </div>
-            </div>
-
-            <!-- Rear Chainline Calculator -->
-            <div class="calculator-card">
-                <h2><i class="fas fa-cogs"></i> Rear Chainline Calculator</h2>
-
-                <div class="section">
-                    <label for="a">Hub width (OLD) (mm):</label>
-                    <input type="number" id="a" step="0.1" placeholder="e.g., 135" />
-                </div>
-
-                <div class="section">
-                    <label for="b">Distance from hub locknut to beginning of smallest sprocket (mm):</label>
-                    <input type="number" id="b" step="0.1" placeholder="e.g., 4" />
-                </div>
-
-                <div class="section">
-                    <label for="c">Width from smallest to largest sprocket (mm):</label>
-                    <input type="number" id="c" step="0.1" placeholder="e.g., 35.4" />
-                </div>
-
-                <button class="btn" onclick="calculateRear()">
-                    Calculate Rear Chainline
-                </button>
-                <p id="rearResult" class="result"></p>
-
-                <div class="image-card">
-                    <div class="image-placeholder" style="height: 250px;">
-                        Rear Chainline Measurement Diagram
-                    </div>
-                    <p>Measuring rear chainline</p>
-                </div>
-            </div>
-        </section>
-
-        <div class="chainline-difference" id="chainlineDifference">
-            <i class="fas fa-info-circle"></i> Enter both front and rear chainline values to see comparison
+          <div class="image-card">
+            <img
+              id="img"
+              style="text-align: center"
+              src="front-measuring-chainline.gif"
+              alt="Measuring front chainline"
+            />
+            <p>Measuring front chainline with caliper</p>
+          </div>
         </div>
 
-        <div class="info-box">
-            <p>
-                <i class="fas fa-info-circle"></i>
-                <strong>Important Note:</strong> For 1x drivetrains, it is optimal to
-                have the front chainline about 2mm larger than the rear chainline.
-            </p>
+        <!-- Rear Chainline Calculator -->
+        <div class="calculator-card">
+          <h2><i class="fas fa-cogs"></i> Rear Chainline Calculator</h2>
+
+          <div class="section">
+            <label for="a">Hub width (OLD) (mm):</label>
+            <input type="number" id="a" step="0.1" placeholder="e.g., 135" />
+          </div>
+
+          <div class="section">
+            <label for="b"
+              >Distance from hub locknut to beginning of smallest sprocket
+              (mm):</label
+            >
+            <input type="number" id="b" step="0.1" placeholder="e.g., 4" />
+          </div>
+
+          <div class="section">
+            <label for="c">Width from smallest to largest sprocket (mm):</label>
+            <input type="number" id="c" step="0.1" placeholder="e.g., 35.4" />
+          </div>
+
+          <button class="btn" onclick="calculateRear()">
+            Calculate Rear Chainline
+          </button>
+          <p id="rearResult" class="result"></p>
+
+          <div class="image-card">
+            <img
+              id="img1"
+              src="rear-measuring-rear-chainline2.png"
+              alt="Measuring rear chainline"
+            />
+            <p>Measuring rear chainline</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="info-box">
+        <p>
+          <i class="fas fa-info-circle"></i>
+          <strong>Important Note:</strong> For 1x drivetrains, it is optimal to
+          have the front chainline about 2mm larger than the rear chainline.
+        </p>
+      </div>
+
+      <div class="btn-container">
+        <button class="btn btn-warning" onclick="resetAll()">
+          <i class="fas fa-redo"></i> Reset All
+        </button>
+      </div>
+
+      <!-- Measurement Guide -->
+      <section class="measurement-guide">
+        <h2><i class="fas fa-ruler-combined"></i> Measurement Guide</h2>
+
+        <div class="guide-section">
+          <h3><i class="fas fa-cog"></i> Front Chainline Measurements</h3>
+          <ol>
+            <li>
+              <strong>Seatpost diameter (SP):</strong> Measure the diameter of
+              the seatpost using vernier calipers.
+            </li>
+            <li>
+              <strong>Chainring set width (CR):</strong> Measure the total width
+              of the front chainring set (all chainrings together) using vernier
+              calipers.
+            </li>
+            <li>
+              <strong
+                >Distance from seatpost to end of largest chainring (D):</strong
+              >
+              Measure the distance from the seatpost to the outer edge of the
+              largest chainring. Use a ruler or calipers.
+            </li>
+          </ol>
+
+          <div class="image-gallery">
+            <div class="image-card">
+              <img
+                style="width: auto; height: 120px"
+                src="Doubble Chain line.jpg"
+                alt="Double chainring"
+              />
+              <p>Double Chainring Setup</p>
+            </div>
+            <div class="image-card">
+              <img
+                style="width: auto; height: 120px"
+                src="Tripple chain line.jpg"
+                alt="Triple chainring"
+              />
+              <p>Triple Chainring Setup</p>
+            </div>
+            <div class="image-card">
+              <img
+                style="width: auto; height: 120px"
+                src="single-measure-chainline-angled.jpg"
+                alt="Measuring chainline"
+              />
+              <p>Measuring Front Chainline</p>
+            </div>
+          </div>
         </div>
 
-        <div class="btn-container">
-            <button class="btn btn-warning" onclick="resetAll()">
-                <i class="fas fa-redo"></i> Reset All
-            </button>
+        <div class="guide-section">
+          <h3><i class="fas fa-cogs"></i> Rear Chainline Measurements</h3>
+          <ol>
+            <li>
+              <strong>Hub width (a) - OLD:</strong> Measure the distance between
+              the locknuts on the rear hub (over locknut distance).
+            </li>
+            <li>
+              <strong
+                >Distance from hub locknut to beginning of smallest sprocket
+                (b):</strong
+              >
+              Measure from the hub locknut to the face of the smallest sprocket.
+            </li>
+            <li>
+              <strong>Width from smallest to largest sprocket (c):</strong>
+              Measure the total width from the smallest to the largest sprocket
+              on the cassette.
+            </li>
+          </ol>
+
+          <div class="image-gallery">
+            <div class="image-card">
+              <img
+                style="width: auto; height: 200px"
+                src="measuring-hub-old.jpg"
+                alt="Measuring rear hub"
+              />
+              <p>Measuring Rear Hub Width</p>
+            </div>
+            <div class="image-card">
+              <img
+                style="width: 400px; height: auto; align-items: center"
+                src="bicycle_chainline-linija_lanca_bicikla.jpg"
+                alt="Center line & chainline"
+              />
+              <p>Center line & Chainline</p>
+            </div>
+            <div class="image-card">
+              <img
+                style="width: auto; height: 200px"
+                src="good-vs-bad-chainline_dobra_i_losa_linija_lanca2.jpg"
+                alt="Good Vs Bad"
+              />
+              <p>Good Vs bad</p>
+            </div>
+          </div>
         </div>
+      </section>
 
-        <!-- Measurement Guide -->
-        <section class="measurement-guide">
-            <h2><i class="fas fa-ruler-combined"></i> Measurement Guide</h2>
+      <!-- Reference Tables -->
+      <section class="measurement-guide">
+        <h2><i class="fas fa-table"></i> Chainline Reference Tables</h2>
 
-            <div class="guide-section">
-                <h3><i class="fas fa-cog"></i> Front Chainline Measurements</h3>
-                <ol>
-                    <li>
-                        <strong>Seatpost diameter (SP):</strong> Measure the diameter of
-                        the seatpost using vernier calipers.
-                    </li>
-                    <li>
-                        <strong>Chainring set width (CR):</strong> Measure the total width
-                        of the front chainring set (all chainrings together) using vernier
-                        calipers.
-                    </li>
-                    <li>
-                        <strong>Distance from seatpost to end of largest chainring (D):</strong>
-                        Measure the distance from the seatpost to the outer edge of the
-                        largest chainring. Use a ruler or calipers.
-                    </li>
-                </ol>
+        <h3>Typical Values</h3>
+        <table>
+          <tr>
+            <th>Bike Type</th>
+            <th>Front Chainline (mm)</th>
+            <th>Rear Hub Width (OLD) (mm)</th>
+          </tr>
+          <tr>
+            <td>Mountain Bike</td>
+            <td>49-51</td>
+            <td>135</td>
+          </tr>
+          <tr>
+            <td>Road Bike</td>
+            <td>43.5-50</td>
+            <td>130</td>
+          </tr>
+          <tr>
+            <td>Single Speed</td>
+            <td>42-44</td>
+            <td>110-120</td>
+          </tr>
+        </table>
+        <p>
+          Note: These are general guidelines and may vary depending on specific
+          components and frame design.
+        </p>
 
-                <div class="image-gallery">
-                    <div class="image-card">
-                        <div class="image-placeholder" style="height: 120px;">
-                            Double Chainring Setup
-                        </div>
-                        <p>Double Chainring Setup</p>
-                    </div>
-                    <div class="image-card">
-                        <div class="image-placeholder" style="height: 120px;">
-                            Triple Chainring Setup
-                        </div>
-                        <p>Triple Chainring Setup</p>
-                    </div>
-                    <div class="image-card">
-                        <div class="image-placeholder" style="height: 120px;">
-                            Measuring Front Chainline
-                        </div>
-                        <p>Measuring Front Chainline</p>
-                    </div>
-                </div>
-            </div>
+        <h3>Detailed Chainline Values</h3>
+        <table>
+          <tr>
+            <th>Bike Type</th>
+            <th>Chainline (mm)</th>
+            <th>Rear Hub Width (mm)</th>
+            <th>Typical BB Length (mm)</th>
+          </tr>
+          <tr>
+            <td>Single speed & fixie (old)</td>
+            <td>40.5</td>
+            <td>110</td>
+            <td>107</td>
+          </tr>
+          <tr>
+            <td>Single speed & fixie (new)</td>
+            <td>42</td>
+            <td>120</td>
+            <td>111.5</td>
+          </tr>
+          <tr>
+            <td>Road double</td>
+            <td>43.5</td>
+            <td>130</td>
+            <td>103-115</td>
+          </tr>
+          <tr>
+            <td>Gravel double (Shimano GRX)</td>
+            <td>46</td>
+            <td>130</td>
+            <td>103-115</td>
+          </tr>
+          <tr>
+            <td>Road triple</td>
+            <td>45</td>
+            <td>130</td>
+            <td>118-127.5</td>
+          </tr>
+          <tr>
+            <td>MTB triple</td>
+            <td>47.5-50</td>
+            <td>135</td>
+            <td>107-127.5</td>
+          </tr>
+          <tr>
+            <td>1x for 135/142/148 mm</td>
+            <td>52</td>
+            <td>135/142/148</td>
+            <td>122.5</td>
+          </tr>
+          <tr>
+            <td>1x for BOOST 148 mm (wide tyre)</td>
+            <td>55</td>
+            <td>148</td>
+            <td>longer spindle (e.g., FC-M6120-1)</td>
+          </tr>
+          <tr>
+            <td>1x for Super-BOOST 157 mm</td>
+            <td>56.5</td>
+            <td>157</td>
+            <td>even longer</td>
+          </tr>
+          <tr>
+            <td>Tandem</td>
+            <td>60</td>
+            <td>varies</td>
+            <td>127</td>
+          </tr>
+          <tr>
+            <td>Fatbike with 170 mm rear dropout</td>
+            <td>66</td>
+            <td>170</td>
+            <td>longer (e.g., 127.5+)</td>
+          </tr>
+          <tr>
+            <td>Fatbike with 190 mm rear dropout</td>
+            <td>76</td>
+            <td>190</td>
+            <td>even longer</td>
+          </tr>
+          <tr>
+            <td>Rohloff geared hubs</td>
+            <td>varies</td>
+            <td>varies</td>
+            <td>depends on hub</td>
+          </tr>
+        </table>
+      </section>
 
-            <div class="guide-section">
-                <h3><i class="fas fa-cogs"></i> Rear Chainline Measurements</h3>
-                <ol>
-                    <li>
-                        <strong>Hub width (a) - OLD:</strong> Measure the distance between
-                        the locknuts on the rear hub (over locknut distance).
-                    </li>
-                    <li>
-                        <strong>Distance from hub locknut to beginning of smallest sprocket (b):</strong>
-                        Measure from the hub locknut to the face of the smallest sprocket.
-                    </li>
-                    <li>
-                        <strong>Width from smallest to largest sprocket (c):</strong>
-                        Measure the total width from the smallest to the largest sprocket
-                        on the cassette.
-                    </li>
-                </ol>
-
-                <div class="image-gallery">
-                    <div class="image-card">
-                        <div class="image-placeholder" style="height: 200px;">
-                            Measuring Rear Hub Width
-                        </div>
-                        <p>Measuring Rear Hub Width</p>
-                    </div>
-                    <div class="image-card">
-                        <div class="image-placeholder" style="height: 200px;">
-                            Center Line & Chainline
-                        </div>
-                        <p>Center Line & Chainline</p>
-                    </div>
-                    <div class="image-card">
-                        <div class="image-placeholder" style="height: 200px;">
-                            Good vs Bad Chainline
-                        </div>
-                        <p>Good vs Bad Chainline</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Reference Tables -->
-        <section class="measurement-guide">
-            <h2><i class="fas fa-table"></i> Chainline Reference Tables</h2>
-
-            <h3>Typical Values</h3>
-            <table>
-                <tr>
-                    <th>Bike Type</th>
-                    <th>Front Chainline (mm)</th>
-                    <th>Rear Hub Width (OLD) (mm)</th>
-                </tr>
-                <tr>
-                    <td>Mountain Bike</td>
-                    <td>49-51</td>
-                    <td>135</td>
-                </tr>
-                <tr>
-                    <td>Road Bike</td>
-                    <td>43.5-50</td>
-                    <td>130</td>
-                </tr>
-                <tr>
-                    <td>Single Speed</td>
-                    <td>42-44</td>
-                    <td>110-120</td>
-                </tr>
-            </table>
-            <p>
-                Note: These are general guidelines and may vary depending on specific
-                components and frame design.
-            </p>
-
-            <h3>Detailed Chainline Values</h3>
-            <table>
-                <tr>
-                    <th>Bike Type</th>
-                    <th>Chainline (mm)</th>
-                    <th>Rear Hub Width (mm)</th>
-                    <th>Typical BB Length (mm)</th>
-                </tr>
-                <tr>
-                    <td>Single speed & fixie (old)</td>
-                    <td>40.5</td>
-                    <td>110</td>
-                    <td>107</td>
-                </tr>
-                <tr>
-                    <td>Single speed & fixie (new)</td>
-                    <td>42</td>
-                    <td>120</td>
-                    <td>111.5</td>
-                </tr>
-                <tr>
-                    <td>Road double</td>
-                    <td>43.5</td>
-                    <td>130</td>
-                    <td>103-115</td>
-                </tr>
-                <tr>
-                    <td>Gravel double (Shimano GRX)</td>
-                    <td>46</td>
-                    <td>130</td>
-                    <td>103-115</td>
-                </tr>
-                <tr>
-                    <td>Road triple</td>
-                    <td>45</td>
-                    <td>130</td>
-                    <td>118-127.5</td>
-                </tr>
-                <tr>
-                    <td>MTB triple</td>
-                    <td>47.5-50</td>
-                    <td>135</td>
-                    <td>107-127.5</td>
-                </tr>
-                <tr>
-                    <td>1x for 135/142/148 mm</td>
-                    <td>52</td>
-                    <td>135/142/148</td>
-                    <td>122.5</td>
-                </tr>
-                <tr>
-                    <td>1x for BOOST 148 mm (wide tyre)</td>
-                    <td>55</td>
-                    <td>148</td>
-                    <td>longer spindle (e.g., FC-M6120-1)</td>
-                </tr>
-                <tr>
-                    <td>1x for Super-BOOST 157 mm</td>
-                    <td>56.5</td>
-                    <td>157</td>
-                    <td>even longer</td>
-                </tr>
-                <tr>
-                    <td>Tandem</td>
-                    <td>60</td>
-                    <td>varies</td>
-                    <td>127</td>
-                </tr>
-                <tr>
-                    <td>Fatbike with 170 mm rear dropout</td>
-                    <td>66</td>
-                    <td>170</td>
-                    <td>longer (e.g., 127.5+)</td>
-                </tr>
-                <tr>
-                    <td>Fatbike with 190 mm rear dropout</td>
-                    <td>76</td>
-                    <td>190</td>
-                    <td>even longer</td>
-                </tr>
-                <tr>
-                    <td>Rohloff geared hubs</td>
-                    <td>varies</td>
-                    <td>varies</td>
-                    <td>depends on hub</td>
-                </tr>
-            </table>
-        </section>
-
-        <footer>
-            <p>
-                Bicycle Chainline Calculator &copy; 2023 | For optimal drivetrain
-                performance
-            </p>
-        </footer>
+      <footer>
+        <p>
+          Bicycle Chainline Calculator &copy; 2023 | For optimal drivetrain
+          performance
+        </p>
+      </footer>
     </div>
 
     <script>
-        function calculateFront() {
-            let sp = parseFloat(document.getElementById("sp").value);
-            let cr = parseFloat(document.getElementById("cr").value);
-            let d = parseFloat(document.getElementById("d").value);
+      function calculateFront() {
+        let sp = parseFloat(document.getElementById("sp").value);
+        let cr = parseFloat(document.getElementById("cr").value);
+        let d = parseFloat(document.getElementById("d").value);
 
-            if (sp && cr && d) {
-                let frontChainline = sp / 2 + d - cr / 2;
-                document.getElementById("frontResult").textContent = `Front Chainline: ${frontChainline.toFixed(1)} mm`;
-                document.getElementById("frontResult").classList.remove("error");
-                updateChainlineDifference();
-            } else {
-                document.getElementById("frontResult").textContent = "Please enter all values";
-                document.getElementById("frontResult").classList.add("error");
-            }
+        if (sp && cr && d) {
+          let frontChainline = sp / 2 + d - cr / 2;
+          document.getElementById(
+            "frontResult"
+          ).textContent = `Front Chainline: ${frontChainline.toFixed(1)} mm`;
+        } else {
+          document.getElementById("frontResult").textContent =
+            "Please enter all values";
+          document.getElementById("frontResult").style.color = "var(--accent)";
         }
+      }
 
-        function calculateRear() {
-            let a = parseFloat(document.getElementById("a").value);
-            let b = parseFloat(document.getElementById("b").value);
-            let c = parseFloat(document.getElementById("c").value);
+      function calculateRear() {
+        let a = parseFloat(document.getElementById("a").value);
+        let b = parseFloat(document.getElementById("b").value);
+        let c = parseFloat(document.getElementById("c").value);
 
-            if (a && b && c) {
-                let rearChainline = a / 2 - (c / 2 + b);
-                document.getElementById("rearResult").textContent = `Rear Chainline: ${rearChainline.toFixed(1)} mm`;
-                document.getElementById("rearResult").classList.remove("error");
-                updateChainlineDifference();
-            } else {
-                document.getElementById("rearResult").textContent = "Please enter all values";
-                document.getElementById("rearResult").classList.add("error");
-            }
+        if (a && b && c) {
+          let rearChainline = a / 2 - (c / 2 + b);
+          document.getElementById(
+            "rearResult"
+          ).textContent = `Rear Chainline: ${rearChainline.toFixed(1)} mm`;
+        } else {
+          document.getElementById("rearResult").textContent =
+            "Please enter all values";
+          document.getElementById("rearResult").style.color = "var(--accent)";
         }
+      }
 
-        function updateChainlineDifference() {
-            const frontText = document.getElementById("frontResult").textContent;
-            const rearText = document.getElementById("rearResult").textContent;
-            
-            if (frontText.includes("Front Chainline:") && rearText.includes("Rear Chainline:")) {
-                const frontValue = parseFloat(frontText.split(": ")[1]);
-                const rearValue = parseFloat(rearText.split(": ")[1]);
-                const difference = frontValue - rearValue;
-                
-                let message = "";
-                if (Math.abs(difference) < 0.5) {
-                    message = `Perfect chainline alignment! Front and rear are almost equal (difference: ${difference.toFixed(1)} mm)`;
-                } else if (difference > 0) {
-                    message = `Front chainline is ${difference.toFixed(1)} mm larger than rear (recommended for 1x drivetrains)`;
-                } else {
-                    message = `Rear chainline is ${Math.abs(difference).toFixed(1)} mm larger than front (may cause shifting issues)`;
-                }
-                
-                document.getElementById("chainlineDifference").innerHTML = 
-                    `<i class="fas fa-info-circle"></i> ${message}`;
-            }
-        }
-
-        function resetAll() {
-            document.getElementById("sp").value = "";
-            document.getElementById("cr").value = "";
-            document.getElementById("d").value = "";
-            document.getElementById("a").value = "";
-            document.getElementById("b").value = "";
-            document.getElementById("c").value = "";
-            document.getElementById("frontResult").textContent = "";
-            document.getElementById("rearResult").textContent = "";
-            document.getElementById("frontResult").classList.remove("error");
-            document.getElementById("rearResult").classList.remove("error");
-            document.getElementById("chainlineDifference").innerHTML = 
-                '<i class="fas fa-info-circle"></i> Enter both front and rear chainline values to see comparison';
-        }
+      function resetAll() {
+        document.getElementById("sp").value = "";
+        document.getElementById("cr").value = "";
+        document.getElementById("d").value = "";
+        document.getElementById("a").value = "";
+        document.getElementById("b").value = "";
+        document.getElementById("c").value = "";
+        document.getElementById("frontResult").textContent = "";
+        document.getElementById("rearResult").textContent = "";
+      }
     </script>
-</body>
+  </body>
 </html>
